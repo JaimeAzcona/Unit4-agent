@@ -1,0 +1,12 @@
+gradio
+requests
+smolagents
+datasets
+transformers
+duckduckgo_search
+huggingface_hub
+langchain-core
+langchain-community
+rank_bm25
+beautifulsoup4
+gradio[oauth]
