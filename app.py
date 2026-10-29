@@ -35,7 +35,6 @@ class TavilySearchTool(Tool):
     def forward(self, query: str):
         try:
             client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
-            # include_raw_content pulls the actual page text so the agent doesn't have to visit the URL
             response = client.search(query=query, include_raw_content=True) 
             
             formatted_results = []
@@ -136,7 +135,7 @@ class AnalyzeImageTool(Tool):
             return response.choices[0].message.content
         except Exception as e:
             error_msg = f"Error transcribing audio: {e}"
-            print(error_msg) # This prints to your terminal so you can debug it
+            print(error_msg)
             return error_msg
 class YouTubeTranscriptTool(Tool):
     name = "get_youtube_transcript"
@@ -151,7 +150,6 @@ class YouTubeTranscriptTool(Tool):
 
     def forward(self, video_url: str):
         try:
-            # Extract the video ID from the URL
             if "v=" in video_url:
                 video_id = video_url.split("v=")[-1].split("&")[0]
             elif "youtu.be/" in video_url:
@@ -160,7 +158,6 @@ class YouTubeTranscriptTool(Tool):
                 return "Error: Could not extract video ID from URL."
             
             transcript = YouTubeTranscriptApi.get_transcript(video_id)
-            # Combine all the text blocks into one readable string
             full_text = " ".join([entry['text'] for entry in transcript])
             return full_text
         except Exception as e:
@@ -244,7 +241,7 @@ def run_and_submit_all(profile: gr.OAuthProfile | None):
     for item in questions_data:
         task_id = item.get("task_id")
         question_text = item.get("question")
-        file_name = item.get("file_name") # Extract the file name
+        file_name = item.get("file_name") 
         
         if not task_id or question_text is None:
             continue
